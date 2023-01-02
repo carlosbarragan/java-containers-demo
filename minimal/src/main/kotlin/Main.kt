@@ -40,7 +40,6 @@ class AuthorsHandler(val sqlClient: SimpleSqlClient) : HttpHandler {
         "SELECT a.id as id, a.name as name, a.last_name as last_name, b.name as book_name, b.isbn as book_isbn FROM Authors as a join books as b on b.authors=a.id"
 
     override fun handle(exchange: HttpExchange) = exchange.use {
-        logger.info("Request at ${exchange.requestMethod} ${exchange.requestURI}")
 
         val result = runCatching {
 

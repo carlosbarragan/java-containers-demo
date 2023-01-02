@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.flywaydb.core.Flyway
@@ -9,7 +8,6 @@ import java.sql.ResultSet
 import java.sql.Statement
 import java.util.*
 import javax.sql.DataSource
-import kotlin.properties.ReadOnlyProperty
 
 /**
  * A simple, non-ambitious SQL Client.
@@ -97,34 +95,4 @@ fun configureConnectionPool(properties: Properties): ConnectionPool {
 }
 
 typealias RowMapper<T> = (ResultSet) -> T
-
-fun main() {
-    val json = """
-        { "name":"Carlos",
-          "age": 42
-        }
-    """.trimIndent()
-
-    val map = objectMapper.readValue<Map<String, Any?>>(json)
-    val person = PersonRequest(map)
-
-    println(person.name)
-    println(person.age)
-    println(person.lastName)
-    println(person.age)
-}
-
-class PersonRequest(private val map: Map<String, Any?>) {
-    val name: String by map
-    val age: Int? by map
-    val lastName: String? by relaxedMap(map)
-}
-
-inline fun <reified T> relaxedMap(map: Map<String, Any?>): ReadOnlyProperty<Any?, T?> {
-    println("creating relaxedMap")
-    return ReadOnlyProperty { _, prop ->
-        println("geting value for ${prop.name}")
-        map.getOrDefault(prop.name, null) as T?
-    }
-}
 
