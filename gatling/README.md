@@ -13,7 +13,7 @@ To execute the load test, start the app you want to test and then simply execute
 | -                       | Requests per Second | start time milliseconds |
 |:------------------------|:-------------------:|:-----------------------:| 
 | Spring Boot             |         476         |          13200          |
-| Quarkus                 |         917         |          4700           |
+| Quarkus                 |        3571         |          4142           |
 | Micronaut               |        1388         |          4800           |
 | Spring Boot V3          |         495         |          12800          |
 | Spring Boot V3 Reactive |         625         |          11900          |
