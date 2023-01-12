@@ -4,7 +4,7 @@ import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepository
 import io.quarkus.runtime.StartupEvent
 import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.event.Observes
-import javax.inject.Inject
+import org.jboss.logging.Logger
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
@@ -17,10 +17,9 @@ import javax.ws.rs.core.MediaType
 import kotlin.random.Random
 
 @Path("/authors")
-class GreetingResource {
-
-    @Inject
-    private lateinit var authorRepository: AuthorRepository
+class GreetingResource(
+    val authorRepository: AuthorRepository
+) {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -28,36 +27,34 @@ class GreetingResource {
 }
 
 @ApplicationScoped
-class DataImporter {
+class DataImporter(
+    val authorRepository: AuthorRepository,
+    val bookRepository: BookRepository
+) {
 
-    @Inject
-    lateinit var authorRepository: AuthorRepository
-
-    @Inject
-    lateinit var bookRepository: BookRepository
+    private val log = Logger.getLogger(DataImporter::class.java)
 
     @Transactional
     fun onStart(@Observes ev: StartupEvent) {
-        println("Saving")
+        log.info("Saving")
         (1..5)
             .map {
-                val book=Book().apply {
-                    name="title$it"
+                val book=Book(
+                    name="title$it",
                     isbn= randomString()
-                }
+                )
                 bookRepository.persist(book)
 
-                Author().apply {
-                    name="name$it"
-                    lastName="lastName$it"
-                    this.book= book
-                }
+                Author(
+                    name="name$it",
+                    lastName="lastName$it",
+                    book= book
+                )
 
             }
             .forEach { authorRepository.persist(it) }
     }
-
-    }
+}
 
 
 
@@ -68,21 +65,25 @@ class AuthorRepository: PanacheRepository<Author>
 class BookRepository: PanacheRepository<Book>
 
 @Entity
-class Author {
-    lateinit var name:String
-    lateinit var lastName:String
+@DefaultNoArgConstructor
+data class Author (
+    var name:String,
+    var lastName:String,
     @OneToOne
-    lateinit var book: Book
-    @Id @GeneratedValue var id:Long?=null }
+    var book: Book,
+    @Id @GeneratedValue
+    val id:Long?=null
+)
 
 @Entity
-class Book {
-    lateinit var name:String
-    lateinit var isbn:String
+@DefaultNoArgConstructor
+data class Book (
+    var name:String,
+    var isbn:String,
     @Id
     @GeneratedValue
-    var id:Long? =null
-}
+    val id:Long? =null
+)
 
 val charPool : List<Char> = ('A'..'Z') + ('0'..'9')
 
