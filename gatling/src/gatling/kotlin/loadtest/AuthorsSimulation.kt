@@ -1,15 +1,16 @@
 package loadtest
 
 import io.gatling.javaapi.core.*
-import io.gatling.javaapi.http.*
 import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.http.HttpDsl.*
 
-import java.util.concurrent.ThreadLocalRandom
 
 class AuthorsSimulation : Simulation() {
 
-    val getAuthors = repeat(10000).on(exec(
+    val parallelUsers = Integer.getInteger("parallelUsers", 1000)
+    val numberOfRequests = Integer.getInteger("numberOfRequests", 100)
+
+    val getAuthors = repeat(numberOfRequests).on(exec(
         http("Authors")
             .get("/authors")
             .check(status().shouldBe(200))
@@ -22,7 +23,7 @@ class AuthorsSimulation : Simulation() {
 
     init {
         setUp(
-            users.injectOpen(rampUsers(10).during(0))
+            users.injectOpen(rampUsers(parallelUsers).during(10))
         ).protocols(httpProtocol)
     }
 }
