@@ -22,6 +22,7 @@ all gatlin load tests are executed 3 times, then I took the highest mean request
 | Micronaut               |        7692         |          2888           |
 | Minimal                 |        6666         |           996           |
 | Vert.X                  |        6250         |           777           |
+| Helidon MP              |        1923         |          8156           |
 
 
 ### Disclaimer: 
