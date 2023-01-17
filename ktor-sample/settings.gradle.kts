@@ -1,0 +1,1 @@
+rootProject.name = "novatec.info.ktor-sample"
