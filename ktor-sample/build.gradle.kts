@@ -36,6 +36,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.0.1")
 
     implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("org.flywaydb:flyway-core:9.11.0")
 
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")

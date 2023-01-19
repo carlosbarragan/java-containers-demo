@@ -23,7 +23,7 @@ all gatlin load tests are executed 3 times, then I took the highest mean request
 | Minimal                 |        6666         |           996           |
 | Vert.X                  |        6250         |           777           |
 | Helidon MP              |        1923         |          8156           |
-| KTOR                    |        2702         |          1347           |
+| KTOR                    |        3333         |          1511           |
 
 
 ### Disclaimer: 

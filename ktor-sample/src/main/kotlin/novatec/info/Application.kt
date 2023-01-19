@@ -20,11 +20,9 @@ fun main() {
 
 fun Application.module() {
 
+    DatabaseFactory.init()
     install(ContentNegotiation) {
         jackson()
     }
-
-    DatabaseFactory.init()
-
     configureRouting(AuthorRepository())
 }

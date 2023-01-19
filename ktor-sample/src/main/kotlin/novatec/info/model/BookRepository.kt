@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 
 class BookRepository {
 
-    suspend fun getBookById(booksId: Long): Book = newSuspendedTransaction {
+    suspend fun getBookById(booksId: Int): Book = newSuspendedTransaction {
         BooksTable.select { BooksTable.id eq booksId }.map { toBook(it) }.first()
     }
     

@@ -9,7 +9,6 @@ fun Application.configureRouting(authorRepository: AuthorRepository) {
     routing {
         get("/authors") {
             val authors = authorRepository.getAllAuthors()
-            println(authors)
             call.respond(authors)
         }
     }
