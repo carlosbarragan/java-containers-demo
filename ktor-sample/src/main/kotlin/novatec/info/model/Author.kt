@@ -6,13 +6,12 @@ data class Author(
     val name: String,
     val lastName: String,
     val book: Book,
-    val id: Long
+    val id: Int
 )
 
-object AuthorsTable: Table() {
-    val id = long("id")
+object AuthorsTable: Table("authors") {
+    val id = integer("id")
     val name= varchar("name",255)
-    var lastName= varchar("lastName", 255)
-    var book= long("book_id").references(BooksTable.id)
+    var lastName= varchar("last_name", 255)
     override val primaryKey = PrimaryKey(id)
 }
